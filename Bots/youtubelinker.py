@@ -6,8 +6,10 @@ import pafy
 #scans reddit comments for yt links and retrieves(if able) title and length
 #with possibilty of posting info as reply
 
-r = praw.Reddit("copy of yt_rddt_bt /u/*****")
-r.login("*****", "*****", disable_warning=True)
+r = praw.Reddit(client_id='*****',
+                client_secret="*****",
+                password='*****', user_agent="pythonScripts:0001:by/u/*****",
+                username='*****')
 parsed = set()
 
 #format raw seconds data into h:m:s format
@@ -18,9 +20,9 @@ def ftime(sec):
 
 while True:
     #getsubbreddit
-    subreddit = r.get_subreddit("all") 
+    subreddit = r.subreddit("all")  
     #search comments in subreddit
-    new_comments = subreddit.get_comments()
+    new_comments = subreddit.comments()
     for comment in new_comments:
         cmt = comment.body
         #look for yt links
@@ -36,7 +38,7 @@ while True:
                     video = pafy.new(url)
                     tit = video.title
                     tim = ftime(video.length)
-                    #comment.reply("Title: %s \n\nDuration: %s" % (tit,tim))
+                    comment.reply("Title: %s \n\nDuration: %s" % (tit,tim))
                     print "URL: %s\nTitle: %s\nDuration: %s\n" % (url, tit, tim)
                 except Exception, e:
                     print e

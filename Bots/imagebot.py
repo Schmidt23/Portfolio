@@ -1,4 +1,4 @@
-#imgur ClientSecret: *****
+#imgur ClientSecret: e430d1a6368a4d71e3083836653af91f918ed3b5
 
 import praw
 import pyimgur
@@ -10,14 +10,17 @@ import os
 Client_ID = "*****"
 im = pyimgur.Imgur(Client_ID)
 
-r = praw.Reddit("get imgur links and download by /u/*****")
-r.login("*****", "*****", disable_warning=True)
+r = praw.Reddit(client_id='*****',
+                client_secret="*****",
+                password='*****', user_agent="pythonScripts:0001:by/u/*****",
+                username='93n15bot')
+
 
 subreddit_name = "*****"
 
-subreddit = r.get_subreddit(subreddit_name)
+subreddit = r.subreddit(subreddit_name)
 
-f = "log.txt"
+
 
 def append_to_file(path, data):
     with open(path, "a") as f:
@@ -35,11 +38,13 @@ def create_folder(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
+#logfile that checks if images have been downloaded before
+f = "log.txt"
 already = file_to_set(f)
 
 def saug(subreddit):
 
-    for submission in subreddit.get_hot(limit=5):
+    for submission in subreddit.hot(limit=5):
         link = submission.url
         if submission.domain.endswith('imgur.com') and link not in already:
             try:
