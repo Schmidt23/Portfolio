@@ -20,7 +20,7 @@ def display(clock):
 	for i in xrange(3):
 		for j in clock:
 			#workPC doesn't like linefeed remove and leave empty 
-			print digital[j][i]+"\f",
+			print "%s\f" %digital[j][i],
 		print
 
 
@@ -47,7 +47,7 @@ while (not flag):
 	#update time
 	os.system('clear')
 	now = time.localtime()
-	clock = "%02d" % now.tm_hour +":"+ "%02d" % now.tm_min
+	clock = "%02d:%02d:%02d" % (now.tm_hour,now.tm_min,now.tm_sec)
 	display(clock)
 	if alarm != (now.tm_hour,now.tm_min):
 		time.sleep(5)
