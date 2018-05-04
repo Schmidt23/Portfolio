@@ -36,6 +36,7 @@ def spamming_mail(svr, msg_cnt, sndr, smpl_sz, sbj):
         msg['Subject'] = sbj
         msg['From'] = sndr
         msg['To'] = ", ".join(rand_recipients)
+        msg['Date'] = time.strftime("%a, %d %b %Y %H:%M:%S")
 
         try:
             s.sendmail(sndr, rand_recipients, msg.as_string())
