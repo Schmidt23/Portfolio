@@ -89,8 +89,8 @@ setTime = raw_input("Alarm? ")
 hour, minute = int(setTime[:2]), int(setTime[2:])
 alarm = (hour, minute)
 
-flag = False
-
+flag = False 
+cmd = 'cls' if os.name=='windows' else 'clear'
 tree_out = tree(5)
 bardisp = bar(0)
 bar_it = -1
@@ -126,4 +126,4 @@ while (not flag):
         open_link()
         # set Flag to stop loop
         flag = True
-    os.system('cls')
+    os.system(cmd)
