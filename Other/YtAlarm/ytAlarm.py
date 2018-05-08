@@ -90,7 +90,7 @@ hour, minute = int(setTime[:2]), int(setTime[2:])
 alarm = (hour, minute)
 
 flag = False 
-cmd = 'cls' if os.name=='windows' else 'clear'
+cmd = 'cls' if os.name=='nt' else 'clear'
 tree_out = tree(5)
 bardisp = bar(0)
 bar_it = -1
