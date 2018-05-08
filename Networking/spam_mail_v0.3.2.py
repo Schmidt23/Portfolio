@@ -26,7 +26,8 @@ def spamming_mail(svr, msg_cnt, sndr, smpl_sz, sbj, att, dl):
         # connect to SMTP-Server, Port can be named like 'host:port' or 'host',port
         s = smtplib.SMTP(svr)
         # debug for output to console
-        s.set_debuglevel(dl)
+        if dl != 1:
+            s.set_debuglevel(dl)
 
         msg = MIMEMultipart()
         # content of mail
@@ -83,6 +84,9 @@ def spamming_mail(svr, msg_cnt, sndr, smpl_sz, sbj, att, dl):
     except Exception as e:
         print e
 
+    if dl > 0:
+        print "Sending Mail nr. %d, FROM: %s TO: %s" % (int(sbj)+1, sndr, ", ".join(rand_recipients))
+
 
 # pick number of emails and potentially choose subject
 if __name__ == "__main__":
@@ -116,7 +120,7 @@ if __name__ == "__main__":
     for opt, arg in opts:
         if opt == '-h':
             print 'spam_mail.py -s <server> -m <message> -a <sender> -r <sample_size/nr_recipients> -n <number_mails>' \
-                  '-f <file> -d <debuglevel; 1 | 0>'
+                  '-f <file> -d <debuglevel;0-2>'
             sys.exit()
         elif opt == '-s':
             server = arg
@@ -143,3 +147,4 @@ if __name__ == "__main__":
     for i in xrange(nr_mails):
         # subject counts up with number of mails
         spamming_mail(server, msg_content, sender, sample_size, "%d" % i, attachments, debuglevel)
+
