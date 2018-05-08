@@ -23,7 +23,7 @@ def display(clck):
         # move to next row
         print
 
-cmd = 'cls' if os.name=='windows' else 'clear'
+cmd = 'cls' if os.name=='nt' else 'clear'
 disp = True
 
 if __name__ == "__main__":
