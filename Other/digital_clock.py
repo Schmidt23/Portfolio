@@ -23,7 +23,7 @@ def display(clck):
         # move to next row
         print
 
-
+cmd = 'cls' if os.name=='windows' else 'clear'
 disp = True
 
 if __name__ == "__main__":
@@ -37,7 +37,7 @@ if __name__ == "__main__":
             clock = "%02d %02d %02d" % (now.tm_hour, now.tm_min, now.tm_sec)
             disp = True
         # command is of course system dependent
-        os.system('cls')
+        os.system(cmd)
         display(clock)
         # sleep can be responsible for delay/hiccups but is preferable to not having it
         time.sleep(1)
