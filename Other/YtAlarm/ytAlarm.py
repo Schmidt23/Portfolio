@@ -1,3 +1,5 @@
+#! -*- coding: utf-8 -*-
+
 # checks if local time == given alarm, if so opens random yt video from
 # content.txt in webbrowser
 
@@ -6,10 +8,11 @@ import random
 import time
 import random
 import os
+import datetime as dt
 
 
 def bar(it):
-    test =["/", "-", "\\", "|"]
+    test =["/", "--", "\\", "|"]
     return test[it]
 
 
@@ -36,7 +39,8 @@ def tree(n):
             # append random choice to symbol string
             sym += random.choice(symsyms)
         # add current row
-        leafs += "       " + emp * emult + sym + "\n"
+        testdeb = 1 * (5 + 7-n)
+        leafs += " " * (5 + 7-n) + emp * emult + sym + "\n"
 
         if mult < n - 1:
             # trunk keeps growing until it#s bigger than number of rows
@@ -48,7 +52,7 @@ def tree(n):
     output = ""
     output += leafs
     # finally create trunk via defining whitespace and trunk itself
-    output += "       " + emp * (mult / 2 - trunk / 2) + "#" * (trunk)
+    output += " " * (5 + 7-n) + emp * (mult / 2 - trunk / 2) + "#" * (trunk)
     return output
 
 
@@ -83,15 +87,34 @@ def open_link():
         randomLink = random.choice(line)
     webbrowser.open(randomLink)
 
+def time_til(time, alarm):
+    start = time[:5]
+    end = str(alarm[0])+":"+str(alarm[1])
+    start_dt = dt.datetime.strptime(start, '%H:%M')
+    end_dt = dt.datetime.strptime(end, '%H:%M')
+    diff = (end_dt - start_dt)
+    hours = diff.seconds/3600
+    if hours > 12:
+        hours = 12
+    elif hours < 0:
+        hours = 12
+    elif hours == 0:
+        hours = 1
+
+    return hours
+
+
+
+# set initial vars. functions will only be called when they have to update
 
 setTime = raw_input("Alarm? ")
 # split input into tuple of hour and minutes
 hour, minute = int(setTime[:2]), int(setTime[2:])
 alarm = (hour, minute)
 
-flag = False 
-cmd = 'cls' if os.name=='nt' else 'clear'
-tree_out = tree(5)
+flag = False
+cmd = 'cls' if os.name == 'nt' else 'clear'
+tree_out = tree(1)
 bardisp = bar(0)
 bar_it = -1
 
@@ -100,11 +123,14 @@ while (not flag):
 
     now = time.localtime()
     clock = "%02d:%02d:%02d" % (now.tm_hour, now.tm_min, now.tm_sec)
+    tree_len = time_til(clock, alarm)
+
     if bar_it <= 2:
         bar_it += 1
         bardisp = bar(bar_it)
         print "  "+(bardisp+" ") * 11
         print tree_out
+        print "       Alarm: %02d:%02d" %(alarm[0], alarm[1])
         time_disp = display(clock)
         print time_disp
         print "  "+(bardisp+" ") * 11
@@ -113,10 +139,11 @@ while (not flag):
         # update tree display after bar list was looped through
         bar_it = 0
         bardisp = bar(bar_it)
-        tree_out = tree(5)
+        tree_out = tree(tree_len)
         time_disp = display(clock)
         print "  "+(bardisp+" ") * 11
         print tree_out
+        print "       Alarm: %02d:%02d" % (alarm[0], alarm[1])
         print time_disp
         print "  "+(bardisp+" ") * 11
         time.sleep(0.1)
