@@ -1,5 +1,4 @@
-#imgur ClientSecret: e430d1a6368a4d71e3083836653af91f918ed3b5
-
+#imgur ClientSecret: ****************
 import praw
 import pyimgur
 import re
