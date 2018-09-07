@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # textfilel defaults
     txt = "Hello World \n newline"
     font_size = 20
-    fnt = ImageFont.truetype('C:\\Users\\SchmidtC\\pyhton\\opensans.ttf', font_size)
+    fnt = ImageFont.truetype('C:\\PATH\\TO\\FONTS\\font.ttf', font_size)
     # get sysargs
     try:
         opts, args = getopt.getopt(sys.argv[1:], "htqjon:f:p:i:")
