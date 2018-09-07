@@ -51,7 +51,6 @@ def fast_create_pic(name, w, h, fm, ind, pth):
 
 def text_create_pic(name, w, h, fm, ind, pth, txt):
     #creates pic with given text. Needs link to font!!!
-    #the files don't vary in size
     im = Image.new('RGB', (w, h), (255, 255, 255))
     d = ImageDraw.Draw(im)
     d.text((10, 10), txt + "\n%d" % ind, font=fnt, fill=(0, 0, 0))
