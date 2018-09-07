@@ -1,7 +1,7 @@
 # ! encoding=utf-8
 
 """Create a given number of pictures increasing in size by 1 MB. File format can be changed from TIFF but only TIFF works
-as intended atm since there is no compression."""
+as intended atm since there is no compression. Accurate until 43 because a few too many KBs get added"""
 
 from PIL import Image, ImageDraw, ImageFont
 import random
@@ -12,7 +12,7 @@ import getopt
 
 
 def create_pic(name, w, h, fm, ind, pth):
-    #creates file with number pixel == size --slow
+    # creates file with number pixel == size --slow
     pixels = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (0, 0, 0), (255, 255, 255)]
     pxdata = []
     im = Image.new('RGB', (w, h))
@@ -30,7 +30,7 @@ def create_pic(name, w, h, fm, ind, pth):
 
 
 def fast_create_pic(name, w, h, fm, ind, pth):
-    #creates file with 100*100 px stretched to given size --faster
+    # creates file with 100*100 px stretched to given size --faster
     pixels = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (0, 0, 0), (255, 255, 255)]
     pxdata = []
 
@@ -50,7 +50,7 @@ def fast_create_pic(name, w, h, fm, ind, pth):
 
 
 def text_create_pic(name, w, h, fm, ind, pth, txt):
-    #creates pic with given text. Needs link to font!!!
+    # creates pic with given text. Needs link to font!!!
     im = Image.new('RGB', (w, h), (255, 255, 255))
     d = ImageDraw.Draw(im)
     d.text((10, 10), txt + "\n%d" % ind, font=fnt, fill=(0, 0, 0))
@@ -63,7 +63,9 @@ def text_create_pic(name, w, h, fm, ind, pth, txt):
         print e
         sys.exit(1)
 
+
 def just_text(name, fm, ind, pth, txt):
+    # creates files containing text with fixed size
     im = Image.new('RGB', (591, 591), (255, 255, 255))
     d = ImageDraw.Draw(im)
     d.text((10, 10), txt + "\n%d" % ind, font=fnt, fill=(0, 0, 0))
@@ -76,39 +78,42 @@ def just_text(name, fm, ind, pth, txt):
         print e
         sys.exit(1)
 
+
 def return_size(idx):
-    #returns size/dimensions needed to create idx+1.MB file
+    # returns size/dimensions needed to create idx+1.MB file
     # 1MB(1024² byte) / 3 (3byte per RGB pixel) == w*h if w==h
-    mb = (idx + 1) * MB
+    mb = (idx) * MB
     return int(math.sqrt(mb / BYTES))
 
+
 if __name__ == "__main__":
-    #constants
+    # constants
     MB = 1024 * 1024.00
     BYTES = 3
-    #default values
+    # default values
     name_pic = "pic"
     nr_pics = 3
     file_format = ".tif"
     func = create_pic
     path = os.getcwd()
-    #textfilel defaults
+    one_file = False
+    # textfilel defaults
     txt = "Hello World \n newline"
     font_size = 20
-    fnt = ImageFont.truetype('C:\\PATH\\TO\\FONTS\\font.ttf', font_size)
-    #get sysargs
+    fnt = ImageFont.truetype('C:\\Users\\SchmidtC\\pyhton\\opensans.ttf', font_size)
+    # get sysargs
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "htqjn:f:p:i:")
+        opts, args = getopt.getopt(sys.argv[1:], "htqjon:f:p:i:")
     except getopt.GetoptError:
-        print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -n <number_pics> -f <.file_format> -p' \
-              '<path> -i<name> '
+        print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -o=one_file -n <number_pics> -f '\
+              '<.file_format> -p<path> -i<name> '
         sys.exit(2)
 
-    #switch defaults with sysargs
+    # switch defaults with sysargs
     for opt, arg in opts:
         if opt == '-h':
-            print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -n <number_pics> -f <.file_format> -p' \
-                  '<path> -i<name> '
+            print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -o=one_file -n <number_pics> -f ' \
+                  '<.file_format> -p<path> -i<name> '
             sys.exit()
         elif opt == '-t':
             func = text_create_pic
@@ -118,9 +123,15 @@ if __name__ == "__main__":
         elif opt == '-j':
             func = just_text
             print "just text = On"
+        elif opt == '-o':
+            one_file = True
+            print "Creating one file of given size (default ~3MB)"
         elif opt == '-n':
             nr_pics = int(arg)
-            print "number of pics to create: ", nr_pics
+            if not one_file:
+                print "number of pics to create: ", nr_pics
+            else:
+                print "size of file: ~%d MB" % nr_pics
         elif opt == '-f':
             file_format = arg
             print "file format changed to %s. Please be aware that file sizes will probably be off the mark"
@@ -131,19 +142,32 @@ if __name__ == "__main__":
             name_pic = arg
             print "filename changed to ", arg
 
-    if func == text_create_pic:
-        for i in xrange(nr_pics):
-            wh = return_size(i)
-            text_create_pic(name_pic, wh, wh, file_format, i, path, txt)
-            print path + "\\pic" + str(i)
+    if not one_file:
+        if func == text_create_pic:
+            for i in xrange(1, nr_pics+1):
+                wh = return_size(i)
+                text_create_pic(name_pic, wh, wh, file_format, i, path, txt)
+                print path + "\\pic" + str(i)
 
-    elif func == just_text:
-        for i in xrange(nr_pics):
-            just_text(name_pic, file_format, i, path, txt)
-            print path + "\\pic" + str(i)
+        elif func == just_text:
+            for i in xrange(1,nr_pics+1):
+                just_text(name_pic, file_format, i, path, txt)
+                print path + "\\pic" + str(i)
+        else:
+            for i in xrange(1,nr_pics+1):
+                wh = return_size(i)
+                func(name_pic, wh, wh, file_format, i, path)
+                print path + "\\pic" + str(i), wh, "  ", wh ** 2 * BYTES / MB
     else:
-        for i in xrange(nr_pics):
-            wh = return_size(i)
-            func(name_pic, wh, wh, file_format, i, path)
-            print path + "\\pic" + str(i), wh, "  ", wh ** 2 * BYTES / MB
+        if func == text_create_pic:
+            wh = return_size(nr_pics)
+            text_create_pic("of"+name_pic, wh, wh, file_format, nr_pics, path, txt)
+            print path + "\\pic" + str(nr_pics)
 
+        elif func == just_text:
+            just_text("of"+name_pic, file_format, nr_pics, path, txt)
+            print path + "\\pic" + str(nr_pics)
+        else:
+            wh = return_size(nr_pics)
+            func("of"+name_pic, wh, wh, file_format, nr_pics, path)
+            print path + "\\pic" + str(nr_pics), wh, "  ", wh ** 2 * BYTES / MB
