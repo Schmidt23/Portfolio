@@ -63,6 +63,18 @@ def text_create_pic(name, w, h, fm, ind, pth, txt):
         print e
         sys.exit(1)
 
+def just_text(name, fm, ind, pth, txt):
+    im = Image.new('RGB', (591, 591), (255, 255, 255))
+    d = ImageDraw.Draw(im)
+    d.text((10, 10), txt + "\n%d" % ind, font=fnt, fill=(0, 0, 0))
+    try:
+        im.save("%s\\%s%d%s" % (pth, name, ind, fm))
+    except IOError as e:
+        print e
+        sys.exit(1)
+    except ValueError as e:
+        print e
+        sys.exit(1)
 
 def return_size(idx):
     #returns size/dimensions needed to create idx+1.MB file
@@ -83,24 +95,29 @@ if __name__ == "__main__":
     #textfilel defaults
     txt = "Hello World \n newline"
     font_size = 20
-    fnt = ImageFont.truetype('C:\\PATH\\TO\\FONT\\font.ttf', font_size)
+    fnt = ImageFont.truetype('C:\\PATH\\TO\\FONTS\\font.ttf', font_size)
     #get sysargs
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "htqn:f:p:i:")
+        opts, args = getopt.getopt(sys.argv[1:], "htqjn:f:p:i:")
     except getopt.GetoptError:
-        print 'create_pics.py -h=help -t=textfile -q=fast_mode -n <number_pics> -f <.file_format> -p <path> -i<name>'
+        print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -n <number_pics> -f <.file_format> -p' \
+              '<path> -i<name> '
         sys.exit(2)
 
     #switch defaults with sysargs
     for opt, arg in opts:
         if opt == '-h':
-            print 'create_pics.py -h=help -t=textfile -q=fast_mode -n <number_pics> -f <.file_format> -p <path> -i<name>'
+            print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -n <number_pics> -f <.file_format> -p' \
+                  '<path> -i<name> '
             sys.exit()
         elif opt == '-t':
             func = text_create_pic
         elif opt == '-q':
             func = fast_create_pic
             print "fast_mode = On"
+        elif opt == '-j':
+            func = just_text
+            print "just text = On"
         elif opt == '-n':
             nr_pics = int(arg)
             print "number of pics to create: ", nr_pics
@@ -118,6 +135,11 @@ if __name__ == "__main__":
         for i in xrange(nr_pics):
             wh = return_size(i)
             text_create_pic(name_pic, wh, wh, file_format, i, path, txt)
+            print path + "\\pic" + str(i)
+
+    elif func == just_text:
+        for i in xrange(nr_pics):
+            just_text(name_pic, file_format, i, path, txt)
             print path + "\\pic" + str(i)
     else:
         for i in xrange(nr_pics):
