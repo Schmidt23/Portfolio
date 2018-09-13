@@ -85,6 +85,10 @@ def return_size(idx):
     mb = (idx) * MB
     return int(math.sqrt(mb / BYTES))
 
+def return_text_from_file(fl):
+    with open(fl,'rb') as f:
+        text = f.read()
+    return text
 
 if __name__ == "__main__":
     # constants
@@ -103,17 +107,17 @@ if __name__ == "__main__":
     fnt = ImageFont.truetype('C:\\PATH\\TO\\FONTS\\font.ttf', font_size)
     # get sysargs
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "htqjon:f:p:i:")
+        opts, args = getopt.getopt(sys.argv[1:], "htqjon:f:p:i:d:")
     except getopt.GetoptError:
         print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -o=one_file -n <number_pics> -f '\
-              '<.file_format> -p<path> -i<name> '
+              '<.file_format> -p <outpath> -i <name> -d <textfilepath>'
         sys.exit(2)
 
     # switch defaults with sysargs
     for opt, arg in opts:
         if opt == '-h':
             print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -o=one_file -n <number_pics> -f ' \
-                  '<.file_format> -p<path> -i<name> '
+                  '<.file_format> -p <outpath> -i <name> -d <textfilepath>'
             sys.exit()
         elif opt == '-t':
             func = text_create_pic
@@ -141,6 +145,9 @@ if __name__ == "__main__":
         elif opt == '-i':
             name_pic = arg
             print "filename changed to ", arg
+        elif opt == '-d':
+            txt = return_text_from_file(arg)
+            print "changed to input text file:", arg
 
     if not one_file:
         if func == text_create_pic:
