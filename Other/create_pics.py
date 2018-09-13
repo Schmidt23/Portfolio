@@ -85,6 +85,7 @@ def return_size(idx):
     mb = (idx) * MB
     return int(math.sqrt(mb / BYTES))
 
+
 def return_text_from_file(fl):
     with open(fl,'rb') as f:
         text = f.read()
