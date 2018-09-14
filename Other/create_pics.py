@@ -28,6 +28,10 @@ def create_pic(name, w, h, fm, ind, pth):
         print e
         sys.exit(1)
 
+def add_multiple(li, it, n):
+    for i in xrange(n):
+        li.append(it)
+
 
 def fast_create_pic(name, w, h, fm, ind, pth):
     # creates file with 100*100 px stretched to given size --faster
@@ -86,9 +90,13 @@ def return_size(idx):
     return int(math.sqrt(mb / BYTES))
 
 
-def return_text_from_file(fl):
-    with open(fl,'rb') as f:
-        text = f.read()
+def return_text(fl):
+    try:
+        with open(fl,'rb') as f:
+            text = f.read()
+    except IOError:
+        print "%s is not a valid file path. Input will be used as string." %fl
+        text = fl
     return text
 
 if __name__ == "__main__":
@@ -97,30 +105,31 @@ if __name__ == "__main__":
     BYTES = 3
     # default values
     name_pic = "pic"
-    nr_pics = 3
+    nr_pics = 1
     file_format = ".tif"
     func = create_pic
     path = os.getcwd()
     one_file = False
-    # textfilel defaults
+    # textfile defaults
     txt = "Hello World \n newline"
     font_size = 20
-    fnt = ImageFont.truetype('C:\\PATH\\TO\\FONTS\\font.ttf', font_size)
+    fnt = ImageFont.truetype('C:\\PATH\\TO\\FONT\\font.ttf', font_size)
     # get sysargs
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "htqjon:f:p:i:d:")
+        opts, args = getopt.getopt(sys.argv[1:], "hqjot:n:f:p:i:d:")
     except getopt.GetoptError:
-        print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -o=one_file -n <number_pics> -f '\
-              '<.file_format> -p <outpath> -i <name> -d <textfilepath>'
+        print 'create_pics.py -h=help -q=fast_mode -j=just_text -o=one_file -t=textfile "string" or <textfilepath>'\
+         '-n <number_pics> -f <.file_format> -p <outpath> -i <name>'
         sys.exit(2)
 
     # switch defaults with sysargs
     for opt, arg in opts:
         if opt == '-h':
-            print 'create_pics.py -h=help -t=textfile -q=fast_mode -j=just_text -o=one_file -n <number_pics> -f ' \
-                  '<.file_format> -p <outpath> -i <name> -d <textfilepath>'
+            print 'create_pics.py -h=help -q=fast_mode -j=just_text -o=one_file -t=textfile "string" or <textfilepath> '\
+             '-n <number_pics> -f <.file_format> -p <outpath> -i <name>'
             sys.exit()
         elif opt == '-t':
+            txt = return_text(arg)
             func = text_create_pic
         elif opt == '-q':
             func = fast_create_pic
@@ -130,7 +139,7 @@ if __name__ == "__main__":
             print "just text = On"
         elif opt == '-o':
             one_file = True
-            print "Creating one file of given size (default ~3MB)"
+            print "Creating one file of given size (default ~1MB)"
         elif opt == '-n':
             nr_pics = int(arg)
             if not one_file:
@@ -139,16 +148,13 @@ if __name__ == "__main__":
                 print "size of file: ~%d MB" % nr_pics
         elif opt == '-f':
             file_format = arg
-            print "file format changed to %s. Please be aware that file sizes will probably be off the mark"
+            print "file format changed to %s. Please be aware that file sizes will probably be off the mark" % arg
         elif opt == "-p":
             path = arg
             print "path changed to", path
         elif opt == '-i':
             name_pic = arg
             print "filename changed to ", arg
-        elif opt == '-d':
-            txt = return_text_from_file(arg)
-            print "changed to input text file:", arg
 
     if not one_file:
         if func == text_create_pic:
@@ -173,6 +179,7 @@ if __name__ == "__main__":
             print path + "\\pic" + str(nr_pics)
 
         elif func == just_text:
+            print "just text"
             just_text("of"+name_pic, file_format, nr_pics, path, txt)
             print path + "\\pic" + str(nr_pics)
         else:
