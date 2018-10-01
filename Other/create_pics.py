@@ -140,7 +140,7 @@ if __name__ == "__main__":
             print "just text = On"
         elif opt == '-o':
             one_file = True
-            print "Creating one file of given size (default ~1MB)"
+            print "Creating one file of given size (default ~{}MB)".format(nr_pics)
         elif opt == '-n':
             nr_pics = int(arg)
             if not one_file:
