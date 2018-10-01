@@ -149,6 +149,8 @@ if __name__ == "__main__":
                 print "size of file: ~{}MB".format(nr_pics)
         elif opt == '-f':
             file_format = arg
+            if file_format == '.pdf':
+                MB *= 4
             print "file format changed to {}. Please be aware that file sizes will probably be off the mark".format(arg)
         elif opt == "-p":
             path = arg
