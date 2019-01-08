@@ -1,38 +1,50 @@
 # -*- coding: utf-8 -*-
 """
-Creates randomized bingo boards
+creates randomized binog boards
 """
 import random
 import math
 import argparse
+import os
 import pandas as pd
 
 
 CSS = """<head>
 <style>
+
+page {
+  size: A4;
+  margin: 0;
+}
 table {  
-    color: #333;
-    font-family: Helvetica, Arial, sans-serif;
-    width: 25em;
+    color: #333; /* Lighten up font color */
+    font-family: Helvetica, Arial, sans-serif; /* Nicer font */
+    width: 40%;
     border-collapse: 
-    collapse; border-spacing: 50px 0; 
+    collapse; border-spacing: 25px 0; 
     margin: 10px;
     float: left;
     table-layout: fixed;
     word-wrap: break-word;
-    font-size: 70%
+    font-size: 70%;
+    page-break-inside: avoid;
 }
 
-td, th { border: 1px solid #CCC; height: 4em;width: 4em;} 
+td, th { 
+        border: 1px solid #CCC;
+        height: 4em;
+        width: 4em;
+
+} /* Make cells a bit taller */
 
 th {  
-    background: #F3F3F3; 
-    font-weight: bold; 
+    background: #F3F3F3; /* Light grey background */
+    font-weight: bold; /* Make sure they're bold */
 }
 
 td {  
-    background: #FAFAFA;
-    text-align: center;
+    background: #FAFAFA; /* Lighter grey background */
+    text-align: center; /* Center our text */
     layout: fixed;
 }
 </style>
@@ -82,8 +94,9 @@ def create_board(board):
 
 if __name__ == "__main__":
     #default constants
-    fp = "t.html"
-    inp_path = "input.txt"
+    HOME = os.path.expanduser("~")
+    fp = "{}/My Documents/t.html".format(HOME)
+    inp_path = "{}/My Documents/input.txt".format(HOME)
     words = get_words(inp_path)
     columns = int(math.sqrt(len(words)))
     rows = int(len(words)/columns)
