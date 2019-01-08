@@ -58,7 +58,7 @@ def write_css(out_path, css):
     try:
         with open(out_path, 'w') as file_out:
             file_out.write(css)
-    except FileNotFoundError as e:
+    except IOError as e:
         print(e)
         sys.exit(1)
     
@@ -69,7 +69,7 @@ def get_words(file_path):
         with open(file_path, 'r') as file_in:
             #one word per line; strip newline marker
             wordlist = [word.strip("\n") for word in file_in.readlines()]
-    except FileNotFoundError as e:
+    except IOError as e:
         print(e)
         sys.exit(1)
         
@@ -105,7 +105,7 @@ def create_board(board):
     try:
         with open(fp, 'a') as file_out:
             file_out.write(html)
-    except FileNotFoundError as e:
+    except IOError as e:
         print(e)
         sys.exit(1)
 
