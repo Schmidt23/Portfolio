@@ -8,6 +8,7 @@ import math
 import argparse
 import os
 import sys
+import webbrowser
 import pandas as pd
 
 
@@ -110,6 +111,7 @@ def create_board(board):
         sys.exit(1)
 
 
+
 if __name__ == "__main__":
     #default constants
     HOME = os.path.expanduser("~")
@@ -136,6 +138,8 @@ if __name__ == "__main__":
                         help="choose input path")
     parser.add_argument("-n", "--number",
                         type=int, help="choose number of boards")
+    parser.add_argument("-b", "--browser", action="store_true", 
+                        help="open output directly in browser")
 
     args = parser.parse_args()
 
@@ -157,3 +161,5 @@ if __name__ == "__main__":
     #append given number of boards to file
     for n in range(num_boards):
         create_board(words)
+    if args.browser:
+        webbrowser.open(fp)
