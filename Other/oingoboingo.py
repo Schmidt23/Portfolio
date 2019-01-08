@@ -110,7 +110,6 @@ def create_board(board):
         sys.exit(1)
 
 
-
 if __name__ == "__main__":
     #default constants
     HOME = os.path.expanduser("~")
@@ -119,6 +118,7 @@ if __name__ == "__main__":
     words = get_words(inp_path)
     columns = int(math.sqrt(len(words)))
     rows = int(len(words)/columns)
+    info = "{} words {} used".format(len(words), columns*rows)
 
     med = []
     num_boards = 10
@@ -151,7 +151,9 @@ if __name__ == "__main__":
         num_boards = args.number
 
     write_css(fp, CSS)
-
+    info = "{} words {} used".format(len(words), columns*rows)
+    print(info)
+    
     #append given number of boards to file
     for n in range(num_boards):
         create_board(words)
