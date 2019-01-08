@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-creates randomized binog boards
+creates randomized bingo boards
+
 """
 import random
 import math
 import argparse
 import os
+import sys
 import pandas as pd
 
 
@@ -19,7 +21,7 @@ page {
 table {  
     color: #333; /* Lighten up font color */
     font-family: Helvetica, Arial, sans-serif; /* Nicer font */
-    width: 40%;
+    width: 45%;
     border-collapse: 
     collapse; border-spacing: 25px 0; 
     margin: 10px;
@@ -38,7 +40,7 @@ td, th {
 } /* Make cells a bit taller */
 
 th {  
-    background: #F3F3F3; /* Light grey background */
+    background: #F3F3F3; /* Light grey background */m7z
     font-weight: bold; /* Make sure they're bold */
 }
 
@@ -53,14 +55,24 @@ td {
 
 def write_css(out_path, css):
     """create/overwrite file and fill with defined CSS header"""
-    with open(out_path, 'w') as file_out:
-        file_out.write(css)
+    try:
+        with open(out_path, 'w') as file_out:
+            file_out.write(css)
+    except FileNotFoundError as e:
+        print(e)
+        sys.exit(1)
+    
 
 def get_words(file_path):
     """read input file"""
-    with open(file_path, 'r') as file_in:
-        #one word per line; strip newline marker
-        wordlist = [word.strip("\n") for word in file_in.readlines()]
+    try:
+        with open(file_path, 'r') as file_in:
+            #one word per line; strip newline marker
+            wordlist = [word.strip("\n") for word in file_in.readlines()]
+    except FileNotFoundError as e:
+        print(e)
+        sys.exit(1)
+        
     return wordlist
 
 
@@ -77,6 +89,7 @@ def fill_board(inp, ro, co):
         inp = inp[co:]
     return board
 
+
 def create_board(board):
     """append finished board to output file"""
     #shuffle wordlist
@@ -89,8 +102,14 @@ def create_board(board):
                       float_format="right", justify="match-parent")
 
     #write html to output_path
-    with open(fp, 'a') as file_out:
-        file_out.write(html)
+    try:
+        with open(fp, 'a') as file_out:
+            file_out.write(html)
+    except FileNotFoundError as e:
+        print(e)
+        sys.exit(1)
+
+
 
 if __name__ == "__main__":
     #default constants
