@@ -77,7 +77,7 @@ def display(clock):
     # 3 elements per numeral
     #for i in xrange(3):
         # number elements in current time
-    clout = ("".join([digital[j][i] for j in clock]) for i in xrange(3))
+    clout = ("".join((digital[j][i] for j in clock)) for i in xrange(3))
         #for j in clock:
             # append complete row
             #clout.append("%s" % digital[j][i])
@@ -119,8 +119,16 @@ def time_til(time, alarm):
 def render_disout(src):
     #choose picture string from source list
     choice = random.choice(src)
+    #only use tree generator if tree is chosen
+    if args.tree:
+        src[0] = "{}".format("\n" * tree_len)
+        if src.index(choice) == 0:
+                    tree_out = [tree(tree_len)]
+                    choice = "{}".format("".join(tree_out))
+        else:
+            choice = random.choice(src[1:])
     #get highest amount of newlines in source strings
-    max_len = max([string.count("\n") for string in src])
+    max_len = max((string.count("\n") for string in src))
     #get amount of newlines in chosen string
     choice_len = choice.count("\n")
     #get even amount of newlines
@@ -180,8 +188,8 @@ if __name__ == "__main__":
                         help="activate ascii")
     parser.add_argument("-j", "--japanese", action="store_true",
                         help="activate japanese emoji")
-    parser.add_argument("-f", "--feed", action="store_true",
-                        help="display rss feed from heise")
+    parser.add_argument("-f", "--feed", nargs='?', const='https://www.heise.de/rss/heise-atom.xml',
+                        help="display rss feed default=heise.de")
     args = parser.parse_args()
 
     #get initial tree length
@@ -199,7 +207,8 @@ if __name__ == "__main__":
         args.tree = True
 
     if args.feed:
-        ticker = fill_ticker()
+        print args.feed
+        ticker = fill_ticker(feed=args.feed)
 
     if args.tree:
         disp_choice += tree_out
@@ -211,7 +220,6 @@ if __name__ == "__main__":
     if args.japanese:
         japL = [d_1, d_2, d_3, d_33, d_4, d_44, d_5]
         disp_choice += japL
-
 
 
 # check if time == alarm if not keep in loop
@@ -235,12 +243,6 @@ if __name__ == "__main__":
         bdsp = "  {} ".format((bardisp + " ") * 11)
         #create ticker
         tckr = render_ticker(k, ticker)
-
-        #only use tree generator if tree is chosen
-        if args.tree:
-            tree_out = [tree(tree_len)]
-            disp_choice[0] = "{}".format("".join(tree_out))
-
         #create complete output
         print_list = [bdsp, dis_out, tckr, al_text, time_disp, bdsp]
 
@@ -256,3 +258,4 @@ if __name__ == "__main__":
         #clear the screen
         os.system(cmd)
     sys.exit(0)
+    
