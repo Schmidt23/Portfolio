@@ -1,8 +1,8 @@
-
 #! -*- coding: utf-8 -*-
 
 # checks if local time == given alarm, if so opens random yt video from
 # content.txt in webbrowser
+# no feed without declaring at least one symbol group (tree, asciis, japemoji)
 import random
 import time
 import os
@@ -121,7 +121,7 @@ def render_disout(src):
     choice = random.choice(src)
     #only use tree generator if tree is chosen
     if args.tree:
-        src[0] = "{}".format("\n" * tree_len)
+        #src[0] = "{}".format("\n" * tree_len)
         if src.index(choice) == 0:
                     tree_out = [tree(tree_len)]
                     choice = "{}".format("".join(tree_out))
@@ -158,7 +158,6 @@ alarm = (hour, minute)
 
 flag = False
 cmd = 'cls' if os.name == 'nt' else 'clear'
-tree_out = [""]
 bardisp = bar(0)
 bar_it = -1
 
@@ -197,6 +196,8 @@ if __name__ == "__main__":
     clock = "%02d:%02d:%02d" % (now.tm_hour, now.tm_min, now.tm_sec)
     tree_len = time_til(clock, alarm)
     org_tree_len = tree_len
+    #initial tree
+    tree_out = [tree(tree_len)]
 
     #parse sysargs and fill picture_string list
     disp_choice = []
@@ -258,4 +259,3 @@ if __name__ == "__main__":
         #clear the screen
         os.system(cmd)
     sys.exit(0)
-    
