@@ -5,8 +5,9 @@ import random
 import nltk
 
 #nltk.download('wordnet')
+#nltk.download('punkt')
 
-test = "this is a really hard thing to do and \n only works in english too"
+test = "Geht das auch mit langen Satzen? Wenn man schön viele Nebensätze, wie hier zum Beispiel, aneinanderhängt, auch wenn mir etwas die Ideen ausgehen?"
 
 
 def synonymize(text):
@@ -26,3 +27,17 @@ def trans_to_ger(text):
     blob = textblob.TextBlob(text)
     trans = blob.translate(to="de")
     return trans
+
+def hann_sent(text):
+    blob = textblob.TextBlob(text)
+    out = []
+    for sentence in blob.sentences:
+        punc = sentence.tokenize()
+        words = punc[:-1]
+        random.shuffle(words)
+        last_word =words[-1]+" "+punc[-1]
+        out.append(" ".join(words[:-1]))
+        out.append(last_word)
+    return " ".join(out)
+
+#print((hann_sent(test)))
