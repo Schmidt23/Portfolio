@@ -32,7 +32,7 @@ def newest_movie():
 
     with open(filepath, 'r') as f:
         df = pd.read_csv(f)
-
+    #locate every year before 1990 take random selection and return title
     select = ''.join(df.loc[df['year'] < 1990].sample()['title'].values)
     link = generate_link(select)
     return select, link
