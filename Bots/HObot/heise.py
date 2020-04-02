@@ -25,4 +25,3 @@ def shorten_url(url):
     urlencode({'url':url}))
     with contextlib.closing(urlopen(request_url)) as response:
         return response.read().decode('utf-8')
-
