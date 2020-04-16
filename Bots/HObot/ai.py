@@ -1,8 +1,8 @@
 from textgenrnn import textgenrnn
-
+import os
 from pathlib import Path
 
-file = Path('E:\Docs\Lebla\Scripts\HOBot\\trump_weights.hdf5')
+file = Path(f'{os.path.curdir}\trump_weights.hdf5')
 
 def textgen(train = False):
 
@@ -13,7 +13,7 @@ def textgen(train = False):
         print("using standard")
         t = textgenrnn()
     if train:
-        t.train_from_file('E:\Docs\Lebla\Scripts\HOBot\\ai\\trump.txt', num_epochs=1)
+        t.train_from_file(f'{os.path.curdir}\\ai\\trump.txt', num_epochs=2)
 
     generation = (t.generate(1, temperature=0.5, return_as_list=True,)[0])
     return generation
