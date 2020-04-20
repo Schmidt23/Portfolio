@@ -9,12 +9,11 @@ def return_numbers():
     today = str(datetime.datetime.today().strftime("%Y-%m-%d-%H"))
     earlier = (datetime.datetime.today() - datetime.timedelta(hours=1)).strftime("%Y-%m-%d-%H")
 
-    filepath = f"COVID19\{today}.json"
-    prev_filepath = f"COVID19\{earlier}.json"
+    filepath = f"COVID19/{today}.json"
+    prev_filepath = f"COVID19/{earlier}.json"
 
     if not os.path.exists(filepath):
         print("made a fresh request")
-        #r = requests.get('https://covid2019-api.herokuapp.com/v2/total')
         r = requests.get('https://corona.lmao.ninja/all')
         with open(filepath, 'w') as f:
             json.dump(r.json(), f)
@@ -50,8 +49,8 @@ def current():
     today = str(datetime.datetime.today().strftime("%Y-%m-%d-%H"))
     earlier = (datetime.datetime.today() - datetime.timedelta(hours=1)).strftime("%Y-%m-%d-%H")
 
-    filepath = f"COVID19\{today}.json"
-    prev_filepath = f"COVID19\{earlier}.json"
+    filepath = f"COVID19/{today}.json"
+    prev_filepath = f"COVID19/{earlier}.json"
 
     if not os.path.exists(filepath):
         print('made a fresh request')

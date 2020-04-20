@@ -16,7 +16,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from discord.ext.commands import CommandNotFound
 from discord.utils import get
-
+from keep_alive import keep_alive
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -53,25 +53,25 @@ async def on_message(message):
         return
     #reply on long messages
     if len(message.content) > 500 and message.author != bot.user:
-        with open(f'pics\\reactions\himark.jpg', 'rb') as f:
+        with open(f'pics/reactions/himark.jpg', 'rb') as f:
             pic = discord.File(f)
         await message.channel.send(file=pic)
     #reply if freitag is mentioned
     elif "freitag" in message.content.lower():
         response = friday
-        rdm = random.choice(os.listdir("pics\\benis"))
-        with open(f'pics\\benis\{rdm}', 'rb') as f:
+        rdm = random.choice(os.listdir("pics/benis"))
+        with open(f'pics/benis/{rdm}', 'rb') as f:
             pic = discord.File(f)
         await message.channel.send(response, file=pic)
     #reply if weihnachten is mentioned
     elif "weihnachten" in message.content.lower():
-        with open(f'pics\\reactions\christmas.jpg', 'rb') as f:
+        with open(f'pics/reactions/christmas.jpg', 'rb') as f:
             pic = discord.File(f)
         await message.channel.send(file=pic)
     #reply if 69 is mentionend (needs better filter atm)
     elif " 69 " in message.content and "<@" not in message.content:
-        rdm = random.choice(os.listdir("pics\\reactions\\nice"))
-        with open(f'pics\\reactions\\nice\\{rdm}', 'rb') as f:
+        rdm = random.choice(os.listdir("pics/reactions/nice"))
+        with open(f'pics/reactions/nice/{rdm}', 'rb') as f:
             pic = discord.File(f)
         await message.channel.send("69", file=pic)
     #reply if directly mentioned with a random compliment
@@ -100,7 +100,7 @@ Sing Praise to the God of All Machines"""
 
 @bot.command(name='openpodbaydoors')
 async def hal(ctx):
-    with open(f'pics\\reactions\\HAL9000.jpg', 'rb') as f:
+    with open(f'pics/reactions/HAL9000.jpg', 'rb') as f:
         pic = discord.File(f)
     response = f"I'm sorry {ctx.author.name}, I'm afraid i can't let you do that"
     await ctx.send(file=pic)
@@ -110,7 +110,7 @@ async def hal(ctx):
 async def ftyk(ctx, *, search):
     outlegion = fortyk.return_legion(search)
     for rlegion in outlegion:
-        with open(f'pics\\40k\\{rlegion.pic}', 'rb') as f:
+        with open(f'pics/40k/{rlegion.pic}', 'rb') as f:
             pic = discord.File(f)
         response = (f"Number: {rlegion.number}\nName: {rlegion.name}\nPrimarch: {rlegion.primarch} "
                     f"\nBattlecry: {rlegion.motto}\nAllegiance: {rlegion.affiliation}")
@@ -119,8 +119,8 @@ async def ftyk(ctx, *, search):
 
 @bot.command(name='badbot')
 async def bad(ctx):
-    rdm = random.choice(os.listdir("pics\\reactions\\bad"))
-    with open(f'pics\\reactions\\bad\{rdm}', 'rb') as f:
+    rdm = random.choice(os.listdir("pics/reactions/bad"))
+    with open(f'pics/reactions/bad\{rdm}', 'rb') as f:
         pic = discord.File(f)
     await ctx.send(file=pic)
 
@@ -147,20 +147,20 @@ async def hnews(ctx):
 
 @bot.command(name='sad')
 async def sad(ctx):
-    rdm = random.choice(os.listdir("pics\\reactions\\sad"))
-    with open(f'pics\\reactions\\sad\{rdm}', 'rb') as f:
+    rdm = random.choice(os.listdir("pics/reactions/sad"))
+    with open(f'pics/reactions/sad\{rdm}', 'rb') as f:
         pic = discord.File(f)
     await ctx.send(file=pic)
 
 @bot.command(name='nelli')
 async def nelli(ctx):
-    with open(f'pics\\nelli.jpg', 'rb') as f:
+    with open(f'pics/nelli.jpg', 'rb') as f:
         pic = discord.File(f)
     await ctx.send(file=pic)
 
 @bot.command(name='slowpat')
 async def slowpat(ctx):
-    with open(f'pics\\reactions\slowpat.png', 'rb') as f:
+    with open(f'pics/reactions/slowpat.png', 'rb') as f:
         pic = discord.File(f)
     movie, link = ml.newest_movie()
     response = f"Hey Leute! Habt ihr schon von \"{movie}\" gehört? Soll echt gut sein. {link}"
@@ -178,7 +178,7 @@ async def speak(ctx):
 
 @bot.command(name='goodbot')
 async def good(ctx):
-    with open(f'pics\\reactions\happy.jpg', 'rb') as f:
+    with open(f'pics/reactions/happy.jpg', 'rb') as f:
         pic = discord.File(f)
         await ctx.send(file=pic)
 
@@ -187,7 +187,7 @@ async def corona(ctx):
     confirmed, dead, recovered, dt = cov.return_numbers()
     response = f"As of {dt}:\nCurrently confirmed cases: {confirmed:,}\nCurrent death toll: {dead:,}\nRecovered: {recovered:,}"
 
-    with open(f'Coronachan\Coroanchan.png', 'rb') as f:
+    with open(f'Coronachan/Coroanchan.png', 'rb') as f:
         pic = discord.File(f)
     embed = discord.Embed(title="News from Coronachan", description=response, color=0x00ff00)
     await ctx.send(embed=embed, file=pic)
@@ -198,7 +198,7 @@ async def cc(ctx, *, country):
     response = (f'Currently confirmed cases: {cases:,} (+{new_cases:,})\nCurrent death toll: {deaths:,}(+{new_deaths})'
                f'\nRecovered: {recovered:,}')
 
-    with open(f'Coronachan\Coroanchan.png', 'rb') as f:
+    with open(f'Coronachan/Coroanchan.png', 'rb') as f:
         pic = discord.File(f)
     embed = discord.Embed(title=f"News from Coronachan for {nation}", description=response, color=0x00ff00)
     await ctx.send(embed=embed, file=pic)
@@ -215,7 +215,7 @@ async def hann(ctx):
 
 @bot.command(name='embed', help="debugging embed function")
 async def emb(ctx):
-    with open(f'pics\\reactions\HAL9000.jpg', 'rb') as f:
+    with open(f'pics/reactions/HAL9000.jpg', 'rb') as f:
         pic = discord.File(f)
         response = "test"
         embed = discord.Embed(title= "TestEmbed", description="des", color=0x00ff00)
@@ -300,12 +300,13 @@ async def stop(ctx):
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
-        rdm = random.choice(os.listdir("pics\\reactions\\error"))
-        with open(f'pics\\reactions\\error\\{rdm}', 'rb') as f:
+        rdm = random.choice(os.listdir("pics/reactions/error"))
+        with open(f'pics/reactions/error/{rdm}', 'rb') as f:
             pic = discord.File(f)
             await ctx.send("U wot m8!?")
             await ctx.send(file=pic)
     else:
         print(error)
 
+keep_alive()
 bot.run(TOKEN)

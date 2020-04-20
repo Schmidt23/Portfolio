@@ -17,8 +17,8 @@ icons = {'01d':':sunny:', '02d':':partly_sunny:','03d':':white_sun_cloud:', '04d
 def give_weather(city):
     current = str(datetime.datetime.today().strftime("%Y-%m-%d-%H"))
     earlier = (datetime.datetime.today() - datetime.timedelta(hours=1)).strftime("%Y-%m-%d-%H")
-    filepath = f"weather\{city}-{current}.json"
-    prev_filepath = f"weather\{city}-{earlier}.json"
+    filepath = f"weather/{city}-{current}.json"
+    prev_filepath = f"weather/{city}-{earlier}.json"
 
     if not os.path.exists(filepath):
         print("made a fresh request")

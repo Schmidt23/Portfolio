@@ -3,8 +3,8 @@ import os
 import re
 """just morphing a huge json file into text and removing twitter links """
 
-filepath = f"ai\\trump.json"
-out = f"ai\\trump.txt"
+filepath = f"ai/trump.json"
+out = f"ai/trump.txt"
 links_out = "(http[s]*://t.co/[\w]+)"
 
 if not os.path.exists(out):

@@ -13,7 +13,10 @@ def textgen(train = False):
         print("using standard")
         t = textgenrnn()
     if train:
-        t.train_from_file(f'{os.path.curdir}\\ai\\trump.txt', num_epochs=2)
+        t.train_from_file(f'{os.path.curdir}/ai/trump.txt', num_epochs=2)
 
     generation = (t.generate(1, temperature=0.5, return_as_list=True,)[0])
     return generation
+
+
+#textgen(train=True)
