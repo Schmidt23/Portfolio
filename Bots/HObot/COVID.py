@@ -14,7 +14,7 @@ def return_numbers():
 
     if not os.path.exists(filepath):
         print("made a fresh request")
-        r = requests.get('https://corona.lmao.ninja/all')
+        r = requests.get('https://corona.lmao.ninja/v2/all')
         with open(filepath, 'w') as f:
             json.dump(r.json(), f)
 
@@ -35,7 +35,7 @@ def return_numbers():
 
 
 def by_country(country):
-    r = requests.get(f'https://corona.lmao.ninja/countries/{country}')
+    r = requests.get(f'https://corona.lmao.ninja/v2/countries/{country}')
     data = r.json()
     nation = data['country']
     confirmed = data['cases']
