@@ -7,6 +7,7 @@ import heise as h
 import nlp as nlp
 import urban as ud
 import movielib as ml
+import Imgur_cuties as imc
 import ai
 import fortyk
 import weather
@@ -86,6 +87,13 @@ async def on_message(message):
         pass
 
     await bot.process_commands(message)
+
+
+@bot.command(name="cutie")
+async def gib_cute(ctx):
+    link = imc.link_cutie()
+    await ctx.send(link)
+
 
 @bot.command(name='test')
 async def test_cmds(ctx):
