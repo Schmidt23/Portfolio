@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import os
 import praw
 import datetime
+import logging_posts
 
 load_dotenv()
 
@@ -11,8 +12,7 @@ PASSWORD = os.getenv('REDDIT_PW')
 USER_AGENT = os.getenv('REDDIT_UA')
 USERNAME = os.getenv('REDDIT_UN')
 
-posts = []
-print(posts)
+
 
 r = praw.Reddit(client_id=CLIENT_ID,
                 client_secret=CLIENT_SECRET,
@@ -26,19 +26,16 @@ mods =[mod for mod in hl.moderator()]
 
 def check_age(submission_age):
     now = datetime.datetime.now()
-    return now -datetime.datetime.utcfromtimestamp(submission_age) < datetime.timedelta(days=5)
+    return now -datetime.datetime.utcfromtimestamp(submission_age) < datetime.timedelta(days=2)
 
 def check_submissions():
-    clear_posts(posts)
+    logging_posts.clear_log()
+    posts = logging_posts.read_log()
+    print(posts)
     link = None
     for submission in hl.new(limit=100,):
         if submission.author in mods and check_age(submission.created_utc) and submission.id not in posts:
-            posts.append(submission.id)
+            logging_posts.append_log(submission.id)
             link = submission.permalink
             break
     return link
-
-
-def clear_posts(posts):
-    if len(posts)>=10:
-        posts = posts[8:]
