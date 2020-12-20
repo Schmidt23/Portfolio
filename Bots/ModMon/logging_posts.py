@@ -2,7 +2,7 @@
 log_file = "log.txt"
 
 def append_log(entry):
-    with open(log_file, "a+") as log:
+    with open(log_file, "a") as log:
         log.write(entry+"\n")
 
 def read_log():
