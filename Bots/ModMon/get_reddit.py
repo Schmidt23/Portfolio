@@ -36,6 +36,7 @@ def check_submissions():
     for submission in hl.new(limit=100,):
         if submission.author in mods and check_age(submission.created_utc) and submission.id not in posts:
             logging_posts.append_log(submission.id)
+            posts = logging_posts.read_log()
             link = submission.permalink
             break
     return link
