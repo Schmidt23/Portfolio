@@ -63,6 +63,11 @@ def get_values(char, skills, skill):
 
 def resolve_roll(vals, rolls, points):
     logging.info(f"vals={vals}, rolls={rolls}, points={points}")
+
+    #any value 0, roll not permitted
+    if any(val==0 for val in vals):
+        return "Eigenschaft 0. Probe nicht erlaubt"
+    
     compare = [value-roll for value, roll in zip(vals, rolls)]
     logging.debug(f"Über: {compare}")
 
@@ -76,15 +81,17 @@ def resolve_roll(vals, rolls, points):
     elif rolls.count(20) >= 2:
         return f"Patzer"
     elif roll_success:
-        return f"Sauber Gelungen Quali: {int(points/3)}"
+        return f"Sauber Gelungen Quali: {int((3+points-1)/3)}"
     else:
         diff = [neg for neg in compare if neg < 0]
         remainder = points + sum(diff)
         logging.debug(f"Punkte über: {sum(diff)}, {points}")
         logging.info(f"Rest: {remainder}")
 
-    if remainder > 0:
-        return f"Gelungen Quali: {int(remainder/3)}"
+    if remainder <= 2 and remainder >= 0:
+        return f"Gelungen Quali: 1 {remainder}"       
+    elif remainder > 0:
+        return f"Gelungen Quali: {int((3+remainder-1)/3)} {remainder}"
     else:
         return "fucked"
 
