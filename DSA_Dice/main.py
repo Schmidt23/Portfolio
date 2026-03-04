@@ -16,16 +16,29 @@ def setup_logging(level):
 def load_character(name):
     if not hasattr(load_character, "_cache"):
         load_character._cache = {}
-    if name not in load_character._cache:
+    if name in load_character._cache:
+        return load_character._cache[name]
+    try:
         with open(f"{name}.json") as f:
-            load_character._cache[name] =  json.load(f)
-    return load_character._cache[name]
+            data =  json.load(f)
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"Character file {name}.json not found") from e
+    except json.JSONDecodeError as e:
+        raise ValueError(f" {name}.json invalid") from e
+    
+    load_character._cache[name] = data
+    return data
 
 
 def load_skills():
     if not hasattr(load_skills, "_cache"):
-        with open("skill_list.json") as f:
-            load_skills._cache = json.load(f)
+        try:
+            with open("skill_list.json") as f:
+                load_skills._cache = json.load(f)
+        except FileNotFoundError as e:
+            raise FileNotFoundError(f"Skill file .skill_list.json not found") from e
+        except json.JSONDecodeError as e:
+            raise ValueError(f"skill file is invalid") from e
     return load_skills._cache
 
 
@@ -54,21 +67,35 @@ def success_rate(attributes, points):
     logging.info(f"{success}")
     return success/total*100
 
-def get_values(char, skills, skill):
-    skillpoints = char["Skillpoints"][skill]
-    skill_parts = skills[skill]                           
+def get_values(character, skill_list, skill):
+    try:
+        skillpoints = int(character["Skillpoints"][skill])
+        skill_parts = skill_list[skill]
+    except KeyError as e:                           
+        raise KeyError(f"Skill not found: {e}") from e
+    except ValueError as e:
+        raise ValueError(f"Skill points must be integers") from e
+    except TypeError as e:
+        raise TypeError(f"Skill has invalid Type") from e
     
-    values = [char["Attributes"][attr] for attr in skill_parts]
+    try:
+        values = [int(character["Attributes"][attr]) for attr in skill_parts]
+    except KeyError as e:                           
+        raise KeyError(f"Attribut not found: {e}") from e
+    except ValueError as e:
+        raise ValueError(f"Attributes must be integers") from e
+    except TypeError as e:
+        raise TypeError(f"Attributes has invalid Type") from e
     return values, skillpoints
 
-def resolve_roll(vals, rolls, points):
-    logging.info(f"vals={vals}, rolls={rolls}, points={points}")
+def resolve_roll(attribute_values, rolls, skill_points):
+    logging.info(f"attribute_values={attribute_values}, rolls={rolls}, points={skill_points}")
 
-    #any value 0, roll not permitted
-    if any(val==0 for val in vals):
-        return "Eigenschaft 0. Probe nicht erlaubt"
+    #any value 0 or under, roll not permitted
+    if any(value<=0 for value in attribute_values):
+        return "Eigenschaft 0 oder negativ. Probe nicht erlaubt"
     
-    compare = [value-roll for value, roll in zip(vals, rolls)]
+    compare = [value-roll for value, roll in zip(attribute_values, rolls)]
     logging.debug(f"Über: {compare}")
 
     roll_success = all(x>=0 for x in compare)
@@ -81,11 +108,11 @@ def resolve_roll(vals, rolls, points):
     elif rolls.count(20) >= 2:
         return f"Patzer"
     elif roll_success:
-        return f"Sauber Gelungen Quali: {int((3+points-1)/3)}"
+        return f"Sauber Gelungen Quali: {int((3+skill_points-1)/3)}"
     else:
-        diff = [neg for neg in compare if neg < 0]
-        remainder = points + sum(diff)
-        logging.debug(f"Punkte über: {sum(diff)}, {points}")
+        difference = [fail for fail in compare if fail < 0]
+        remainder = skill_points + sum(difference)
+        logging.debug(f"Punkte über: {sum(difference)}, {skill_points}")
         logging.info(f"Rest: {remainder}")
 
     if remainder <= 2 and remainder >= 0:
@@ -93,11 +120,11 @@ def resolve_roll(vals, rolls, points):
     elif remainder > 0:
         return f"Gelungen Quali: {int((3+remainder-1)/3)} {remainder}"
     else:
-        return "fucked"
+        return "Gescheitert"
 
 
-def skill_check(char, skills, skill):
-    values, skillpoints = get_values(char, skills, skill)
+def skill_check(character, skill_list, skill):
+    values, skillpoints = get_values(character,  skill_list, skill)
     probability = success_rate(values, skillpoints)
     logging.info(f"Erfolgswahrscheinlichkeit: {probability}")
     rolls = roll_dice()

@@ -40,8 +40,9 @@ def test_crit_fail(default_vals, rolls):
 @pytest.mark.parametrize("vals",[[0,20,20],
                                   [20,20,0],
                                   [20,0,20],
-                                  [0,0,0], 
-], ids=["0,20,20", "20,20,0", "20,0,20", "0,0,0"])
+                                  [0,0,0],
+                                  [20,20,-3], 
+], ids=["0,20,20", "20,20,0", "20,0,20", "0,0,0", "20,20,-3"])
 def test_impossible_roll(vals):
     #arrange
     rolls = [1,1,1]
@@ -51,7 +52,7 @@ def test_impossible_roll(vals):
     result = resolve_roll(vals, rolls, points)
 
     #assert
-    assert result == "Eigenschaft 0. Probe nicht erlaubt"
+    assert result == "Eigenschaft 0 oder negativ. Probe nicht erlaubt"
 
 
 @pytest.mark.parametrize("points",[1,
