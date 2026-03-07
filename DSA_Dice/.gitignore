@@ -13,3 +13,6 @@ env/
 
 # Poetry local config
 poetry.toml
+
+#vscode-settings
+.vscode/
