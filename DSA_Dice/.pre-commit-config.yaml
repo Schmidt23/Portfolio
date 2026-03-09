@@ -10,4 +10,16 @@ repos:
     hooks:
       - id: black
         language_version: python3.14
+        
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: bash -c "cd DSA_Dice && poetry run pytest"
+        language: system
+        pass_filenames: false
+        working_dir: DSA_Dice
+
+
+
 

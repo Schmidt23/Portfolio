@@ -1,6 +1,6 @@
 import pytest
 
-from main import resolve_roll
+from dsa_dice.dice import resolve_roll
 
 
 @pytest.fixture
@@ -76,17 +76,11 @@ def test_impossible_roll(vals):
 
 
 @pytest.mark.parametrize(
-    "points",
-    [
-        1,
-        3,
-        2,
-        0,
-        50,
-    ],
+    "points, expected",
+    [(1, 1), (3, 1), (2, 1), (0, 1), (50, 6)],
     ids=["1", "3", "2", "0", "50"],
 )
-def test_success_quality(default_vals, points):
+def test_success_quality(default_vals, points, expected):
     # arrange
     vals = default_vals
     rolls = [9, 9, 9]
@@ -95,7 +89,7 @@ def test_success_quality(default_vals, points):
     result = resolve_roll(vals, rolls, points)
 
     # assert
-    assert result == f"Sauber Gelungen Quali: {int((3+points-1)/3)}"
+    assert result == f"Sauber Gelungen Quali: {expected}"
 
 
 @pytest.mark.parametrize(
@@ -121,18 +115,11 @@ def test_success_quality_one(default_vals, points):
 
 
 @pytest.mark.parametrize(
-    "points",
-    [
-        4,
-        7,
-        10,
-        13,
-        16,
-        19,
-    ],
+    "points, expected",
+    [(4, 1), (7, 2), (10, 3), (13, 4), (16, 5), (19, 6)],
     ids=["4", "7", "10", "13", "16", "19"],
 )
-def test_success_quality_edge_cases(default_vals, points):
+def test_success_quality_edge_cases(default_vals, points, expected):
     # arrange
     vals = default_vals
     rolls = [11, 11, 11]
@@ -141,4 +128,4 @@ def test_success_quality_edge_cases(default_vals, points):
     result = resolve_roll(vals, rolls, points)
 
     # assert
-    assert result == f"Gelungen Quali: {int((points-1)/3)} {points-3}"
+    assert result == f"Gelungen Quali: {expected} {points-3}"

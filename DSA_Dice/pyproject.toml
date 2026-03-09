@@ -24,7 +24,7 @@ line-length = 88
 target-version = "py314"
 extend-exclude = ["venv", ".venv", ".git"]
 lint.select = ["D", "F", "I", "UP", "TID", "ANN"]
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["D", "ANN"]
 
 

@@ -1,6 +1,6 @@
 import pytest
 
-from main import get_values
+from dsa_dice.character import get_values
 
 
 @pytest.fixture
