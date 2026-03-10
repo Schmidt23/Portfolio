@@ -14,5 +14,10 @@ env/
 # Poetry local config
 poetry.toml
 
+#Coverage
+.coverage
+.coverage.*
+htmlcov/
+
 #vscode-settings
 .vscode/
