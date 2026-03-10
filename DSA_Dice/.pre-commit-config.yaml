@@ -18,7 +18,6 @@ repos:
         entry: bash -c "cd DSA_Dice && poetry run pytest"
         language: system
         pass_filenames: false
-        working_dir: DSA_Dice
 
 
 

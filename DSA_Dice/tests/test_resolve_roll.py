@@ -2,6 +2,9 @@ import pytest
 
 from dsa_dice.dice import resolve_roll
 
+# edge case and standard attribute values
+VALUES = [0, 1, 8, 10, 15, 19, 20, 21]
+
 
 @pytest.fixture
 def default_vals():
@@ -129,3 +132,20 @@ def test_success_quality_edge_cases(default_vals, points, expected):
 
     # assert
     assert result == f"Gelungen Quali: {expected} {points-3}"
+
+
+# generate 8000 combinations of attributes would be too expensive
+# @pytest.mark.parametrize("attr1", range(1, 21))
+@pytest.mark.parametrize("attr1", VALUES)
+@pytest.mark.parametrize("attr2", VALUES)
+@pytest.mark.parametrize("attr3", VALUES)
+def test_resolve_roll_is_consistent(attr1, attr2, attr3):
+    vals = [attr1, attr2, attr3]
+    rolls = [1, 20, 10]
+    skill_points = 8
+
+    # same values -> same result
+    result_1 = resolve_roll(vals, rolls, skill_points)
+    result_2 = resolve_roll(vals, rolls, skill_points)
+
+    assert result_1 == result_2
