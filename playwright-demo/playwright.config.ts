@@ -1,4 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+import fs from 'fs';
+import path from 'path';
+
+// Clean test-results before each run
+const resultsDir = path.join(__dirname, 'test-results');
+if (fs.existsSync(resultsDir)) {
+  fs.rmSync(resultsDir, { recursive: true, force: true });
+}
 
 /**
  * Read environment variables from file.
@@ -30,20 +41,30 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    headless: true,
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure'
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        channel: 'chrome',          // echter Chrome
+        headless: true,
+        storageState: undefined,    // keine Cookies, kein Cache
+        launchOptions: {
+          args: ['--disable-features=Autofill']
+    }
+  }
     },
-
+/*
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-
+*/
     /*
     {
       name: 'webkit',

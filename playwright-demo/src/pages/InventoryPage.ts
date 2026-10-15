@@ -60,7 +60,8 @@ export class InventoryPage extends BasePage {
         return '0';
     }
     async isLoaded() {
-        return await this.page.locator(InventoryLocators.inventoryContainer).first().isVisible();
+        await this.page.locator(InventoryLocators.inventoryContainer).first().waitFor();
+        return true;
     }
     
     async sortBy(option: string) {
@@ -68,5 +69,9 @@ export class InventoryPage extends BasePage {
             InventoryLocators.sortDropdown.role,
             { name: InventoryLocators.sortDropdown.name }
         ).selectOption(option);
+    }
+
+    async openCart() {
+        await this.page.locator(InventoryLocators.cartButton).click();
     }
 }

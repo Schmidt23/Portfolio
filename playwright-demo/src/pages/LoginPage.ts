@@ -23,8 +23,8 @@ export class LoginPage extends BasePage {
             name: LoginLocators.loginButton.name}).click();
     }
 
-    async assertLoginError() {
-        await this.page.locator(LoginLocators.errorMessage).isVisible();
+    async getErrorMessage() {
+        return await this.page.locator(LoginLocators.errorMessage).innerText();
     }
 
     async isLoggedIn(){
