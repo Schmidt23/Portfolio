@@ -2,6 +2,7 @@ import { Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 import {LoginLocators} from "../locators/login.locators";
 import { InventoryLocators } from '../locators/inventory.locators';
+import * as Constants from '../../src/constants'
 
 export class LoginPage extends BasePage {
 
@@ -9,7 +10,7 @@ export class LoginPage extends BasePage {
         super(page);
     }
     async goto(){
-        await this.page.goto('https://www.saucedemo.com/');
+        await this.page.goto(Constants.Urls.base);
     }
 
     async login(username: string, password: string ) {

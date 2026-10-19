@@ -1,4 +1,4 @@
-export const productDetailLocators = {
+export const ProductDetailLocators = {
     title: '[data-test="inventory-item-name"]',
     description: '[data-test="inventory-item-desc"]',
     price: '[data-test="inventory-item-price"]',

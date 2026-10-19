@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../src/pages/LoginPage';
 import { InventoryPage } from '../src/pages/InventoryPage';
 import { UserFlows } from '../src/flows/UserFlow';
+import * as Locators from '../src/locators';
 
 //basic version
 test('basic login works', async ({ page }) => {
@@ -22,7 +23,7 @@ test('login works (UserFlow)', async ({ page }) => {
 
     await flows.loginFlow(process.env.USER_NAME!, process.env.PASSWORD!);
 
-    expect(await page.locator('.inventory_list').isVisible()).toBeTruthy();
+    await expect(page.locator(Locators.InventoryLocators.inventoryContainer)).toBeVisible();
 });
 
 

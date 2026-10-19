@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 import { BasePage } from './BasePage';
-import { productDetailLocators } from '../locators/productDetail.locators';
+import { ProductDetailLocators } from '../locators/productDetail.locators';
 
 export class ProductDetailsPage extends BasePage {
 
@@ -9,35 +9,35 @@ export class ProductDetailsPage extends BasePage {
     }
 
     async isLoaded() {
-        return await this.page.getByRole(productDetailLocators.backToProductsButton.role,
-            {name: productDetailLocators.backToProductsButton.name} 
+        return await this.page.getByRole(ProductDetailLocators.backToProductsButton.role,
+            {name: ProductDetailLocators.backToProductsButton.name} 
         ).isVisible();
     }
 
     async backToProducts() {
-        await this.page.getByRole(productDetailLocators.backToProductsButton.role,
-            {name: productDetailLocators.backToProductsButton.name}).click();
+        await this.page.getByRole(ProductDetailLocators.backToProductsButton.role,
+            {name: ProductDetailLocators.backToProductsButton.name}).click();
     }
     
     async addToCart() {
-        await this.page.getByRole(productDetailLocators.addToCartButton.role,
-            {name: productDetailLocators.addToCartButton.name}).click();
+        await this.page.getByRole(ProductDetailLocators.addToCartButton.role,
+            {name: ProductDetailLocators.addToCartButton.name}).click();
     }
 
     async removeFromCart() {
-        await this.page.getByRole(productDetailLocators.removeFromCartButton.role,
-            {name: productDetailLocators.removeFromCartButton.name}).click();
+        await this.page.getByRole(ProductDetailLocators.removeFromCartButton.role,
+            {name: ProductDetailLocators.removeFromCartButton.name}).click();
     }
 
     async getPrice() {
-        return await this.page.locator(productDetailLocators.price).innerText();
+        return await this.page.locator(ProductDetailLocators.price).innerText();
     }
     
     async getDescription() {
-        return await this.page.locator(productDetailLocators.description).innerText();
+        return await this.page.locator(ProductDetailLocators.description).innerText();
     }
 
     async getTitle() {
-        return await this.page.locator(productDetailLocators.title).innerText();
+        return await this.page.locator(ProductDetailLocators.title).innerText();
     }
 }

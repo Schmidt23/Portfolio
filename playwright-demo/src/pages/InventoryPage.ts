@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { InventoryLocators } from '../locators/inventory.locators';
+import * as Constants from '../../src/constants'
 
 export class InventoryPage extends BasePage {
 
@@ -9,7 +10,7 @@ export class InventoryPage extends BasePage {
     }
 
     async goto(){
-        await this.page.goto('https://www.saucedemo.com/inventory.html');   
+        await this.page.goto(Constants.Urls.inventory);   
     }
 
     private getItem(itemName: string) {
@@ -20,6 +21,7 @@ export class InventoryPage extends BasePage {
             )
         });
     }
+    
     async addItemToCart(itemName: string) {
         const item = this.getItem(itemName);
 
