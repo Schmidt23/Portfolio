@@ -50,15 +50,25 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup placeholder',
+      testMatch: /global\.setup\.ts/,
+      teardown: 'cleanup placeholder',
+    },
+    {
+      name: 'cleanup placeholder',
+      testMatch: /global\.teardown\.ts/,
+    },
+    {
       name: 'chromium',
       use: {
-        channel: 'chrome',          // echter Chrome
+        channel: 'chrome',          
         headless: true,
-        storageState: undefined,    // keine Cookies, kein Cache
+        storageState: undefined,  
         launchOptions: {
           args: ['--disable-features=Autofill']
-    }
-  }
+        }
+      },
+      dependencies: ['setup placeholder']
     },
 /*
     {
