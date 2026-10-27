@@ -6,10 +6,10 @@ import fs from 'fs';
 import path from 'path';
 
 // Clean test-results before each run
-const resultsDir = path.join(__dirname, 'test-results');
+/* const resultsDir = path.join(__dirname, 'test-results');
 if (fs.existsSync(resultsDir)) {
   fs.rmSync(resultsDir, { recursive: true, force: true });
-}
+} */
 
 /**
  * Read environment variables from file.

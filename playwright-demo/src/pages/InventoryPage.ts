@@ -52,6 +52,15 @@ export class InventoryPage extends BasePage {
         return await item.locator(InventoryLocators.itemPrice).innerText();
     }
 
+    async getPrices() {
+        return await this.page.locator(InventoryLocators.itemPrice).allInnerTexts();
+    }
+
+
+    async getNames() {
+        return await this.page.locator(InventoryLocators.itemNameText).allInnerTexts();
+    }
+
     async getCartCount() {
         const badge = this.page.locator(InventoryLocators.cartBadge);
 
@@ -67,13 +76,18 @@ export class InventoryPage extends BasePage {
     }
     
     async sortBy(option: string) {
-        await this.page.getByRole(
-            InventoryLocators.sortDropdown.role,
-            { name: InventoryLocators.sortDropdown.name }
-        ).selectOption(option);
+        await this.page.locator(InventoryLocators.productSortContainer)
+        .selectOption(option);
     }
 
     async openCart() {
         await this.page.locator(InventoryLocators.cartButton).click();
     }
+
+    async waitUntilReady() {
+        await this.page.locator(InventoryLocators.inventoryContainer).first().waitFor();
+        await this.page.locator(InventoryLocators.productSortContainer).waitFor({ state: 'visible' });
+        await this.page.locator(InventoryLocators.productSortContainer).waitFor({ state: 'attached' });
+    }
+
 }

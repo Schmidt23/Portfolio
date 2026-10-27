@@ -1,5 +1,6 @@
 export const InventoryLocators = {
     inventoryContainer: '[data-test="inventory-container"]',
+    productSortContainer: '[data-test="product-sort-container"]',
     itemName: { role: 'img', name: '' },
     itemNameText: '[data-test="inventory-item-name"]',
     itemPrice: '[data-test="inventory-item-price"]',
