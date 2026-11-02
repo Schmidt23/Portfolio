@@ -1,5 +1,15 @@
 import { test, expect } from '../src/fixtures/inventoryFixture';
+import { UserFlows } from '../src/flows/UserFlow';
+import { ensureValidAuthState } from '../src/utils/authState';
 
+test.beforeAll(async ({ browser }) => {
+    await ensureValidAuthState(browser);
+});
+
+//use logged in state. Great time saver.
+test.use({
+  storageState: 'playwright/.auth/user.json',
+});
 
 test.describe('Inventory Sorting', () => {
 
