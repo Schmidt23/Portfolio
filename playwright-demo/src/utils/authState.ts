@@ -15,7 +15,7 @@ export function hasValidAuthState(
         fs.readFileSync(AUTH_FILE, 'utf-8')
     );
 
-    //less generic but in this case ther will only ever be one expires
+    //less generic but in this case there will only ever be one expires
     const expiry = state.cookies[0]?.expires;
 
     if (!expiry){
