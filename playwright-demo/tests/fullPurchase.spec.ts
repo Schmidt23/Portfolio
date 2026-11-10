@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { UserFlows } from "../src/flows/UserFlow";
 
-test('Full purchase flow', async ({ page }) => {
+test('@flow Full purchase flow', async ({ page }) => {
     const flows = new UserFlows(page);
 
     await flows.fullPurchaseFlow('Sauce Labs Backpack', {

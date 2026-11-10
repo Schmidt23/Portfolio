@@ -3,7 +3,7 @@ import { Urls } from '../../src/constants/urls';
 import { UserFlows } from '../../src/flows/UserFlow';
 
 
-test.describe('Performance Metrics', () => {
+test.describe('@performance Performance Metrics', () => {
 
     test('Inventory page baseline performance', async ({ page }) => {
         const flow = new UserFlows(page);

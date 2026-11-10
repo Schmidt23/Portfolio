@@ -1,5 +1,4 @@
 import { test, expect } from '../src/fixtures/inventoryFixture';
-import { UserFlows } from '../src/flows/UserFlow';
 import { ensureValidAuthState } from '../src/utils/authState';
 
 test.beforeAll(async ({ browser }) => {
@@ -11,7 +10,7 @@ test.use({
   storageState: 'playwright/.auth/user.json',
 });
 
-test.describe('Inventory Sorting', () => {
+test.describe('@sort Inventory Sorting', () => {
 
     test('sort by Price: Low to High', async ({ inventoryPage }) => {
         await inventoryPage.sortBy('Price (low to high)');

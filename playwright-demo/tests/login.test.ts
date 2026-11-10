@@ -5,7 +5,7 @@ import { UserFlows } from '../src/flows/UserFlow';
 import * as Locators from '../src/locators';
 
 //basic version
-test('basic login works', async ({ page }) => {
+test('basic @login works', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const inventoryPage = new InventoryPage(page);
 
@@ -18,7 +18,7 @@ test('basic login works', async ({ page }) => {
 });
 
 //UserFlow
-test('login works (UserFlow)', async ({ page }) => {
+test('@login works (UserFlow)', async ({ page }) => {
     const flows = new UserFlows(page);
 
     await flows.loginFlow(process.env.USER_NAME!, process.env.PASSWORD!);
@@ -61,7 +61,7 @@ const loginData = [
     }
 ];
 
-test.describe('Login DDT', () =>{
+test.describe('@login Login DDT', () =>{
 
     for (const data of loginData){
 

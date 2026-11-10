@@ -8,5 +8,6 @@ export const InventoryLocators = {
     removeFromCartButton: { role: 'button', name: 'Remove' },
     cartButton: '.shopping_cart_link',
     cartBadge: '[data-test="shopping-cart-badge"]',
-    sortDropdown: { role: 'combobox', name: 'product_sort_container' }
+    sortDropdown: { role: 'combobox', name: 'product_sort_container' },
+    productImages: '.inventory_item_img img'
 } as const;
