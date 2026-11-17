@@ -32,6 +32,7 @@ export async function ensureValidAuthState(
     browser: Browser
 ): Promise<void> {
     if (hasValidAuthState()){
+        console.log('Using existing auth state');
         return;
     }
     console.log("Creating new valid session")

@@ -54,22 +54,42 @@ export default defineConfig({
       testMatch: /global\.setup\.ts/,
       teardown: 'cleanup placeholder',
     },
+
     {
       name: 'cleanup placeholder',
       testMatch: /global\.teardown\.ts/,
     },
+
     {
-      name: 'chromium',
+      name: 'saucedemo',
+
+      testIgnore: /showcase/,
+
       use: {
-        channel: 'chrome',          
+        channel: 'chrome',
         headless: true,
-        storageState: undefined,  
+        storageState: undefined,
         launchOptions: {
           args: ['--disable-features=Autofill']
         }
       },
+
       dependencies: ['setup placeholder']
     },
+
+    {
+      name: 'showcase',
+
+      testMatch: /showcase/,
+
+      use: {
+        channel: 'chrome',
+        headless: true,
+        launchOptions: {
+          args: ['--disable-features=Autofill']
+        }
+      }
+    }
 /*
     {
       name: 'firefox',
