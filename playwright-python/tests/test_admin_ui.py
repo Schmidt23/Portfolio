@@ -1,6 +1,4 @@
-import pytest
-from playwright.sync_api import Page, expect
-import data.test_data as vars
+from playwright.sync_api import  expect
 from utils.helpers import get_user_row
 
 def test_admin_panel_visible( authenticated):
