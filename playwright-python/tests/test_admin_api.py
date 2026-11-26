@@ -1,7 +1,8 @@
 import pytest
+import data.test_data as var
 from playwright.sync_api import Playwright, Page, APIRequestContext, expect
 from typing import Generator
-import data.test_data as var
+from utils.helpers import get_user_row
 
 @pytest.fixture(scope="session")
 def api_request_context(playwright: Playwright,
@@ -11,11 +12,12 @@ def api_request_context(playwright: Playwright,
     yield request_context
     request_context.dispose()
 
-
+@pytest.mark.api
 def test_admin_api_responds(api_request_context: APIRequestContext):
     response = api_request_context.get(var.ADMIN_API)
     assert response.ok
-
+    
+@pytest.mark.api
 def test_admin_api_contains_admin(api_request_context: APIRequestContext):
     response = api_request_context.get(var.ADMIN_API)
     data = response.json()
@@ -28,6 +30,7 @@ def test_admin_api_mocking_modification(authenticated):
         response = route.fetch()
         data = response.json()
         data["data"][0]["userName"] = "Joker"
+        data["data"][0]["employee"]["firstName"] = "Arthur"
 
         route.fulfill(response=response, json=data)
 
@@ -38,13 +41,15 @@ def test_admin_api_mocking_modification(authenticated):
     page.goto("/")
     page.get_by_role("navigation").get_by_role("link", name= "Admin").click()
     expect(page.get_by_text("Joker")).to_be_visible()
+    table = page.get_by_role("table")
+    row = get_user_row(table, "Joker")
+    expect(row).to_contain_text("Arthur")
     page.screenshot(path="screenshotJoker.png")
     
 
 
 def test_mock_api_interception(authenticated):
     def handle(route: Route):
-        print("INTERCEPTED")
         json = {
             "data": [
                 {
