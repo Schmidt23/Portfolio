@@ -2,6 +2,7 @@ import pytest
 import os
 from playwright.sync_api import Browser
 import data.test_data as vars
+from pages.admin_page import AdminPage
 
 STATE = "auth/state.json"
 
@@ -31,3 +32,10 @@ def authenticated(browser: Browser):
     yield context
 
     context.close()
+
+@pytest.fixture
+def admin_page(authenticated):
+    page = authenticated.new_page()
+    admin = AdminPage(page)
+    admin.navigate()
+    return admin

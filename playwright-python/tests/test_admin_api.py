@@ -1,6 +1,6 @@
 import pytest
 import data.test_data as var
-from playwright.sync_api import Playwright, Page, APIRequestContext, expect
+from playwright.sync_api import Playwright, Route, APIRequestContext, expect
 from typing import Generator
 from utils.helpers import get_user_row
 
@@ -16,7 +16,7 @@ def api_request_context(playwright: Playwright,
 def test_admin_api_responds(api_request_context: APIRequestContext):
     response = api_request_context.get(var.ADMIN_API)
     assert response.ok
-    
+
 @pytest.mark.api
 def test_admin_api_contains_admin(api_request_context: APIRequestContext):
     response = api_request_context.get(var.ADMIN_API)
